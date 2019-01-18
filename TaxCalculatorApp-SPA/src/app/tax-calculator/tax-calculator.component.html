@@ -1,0 +1,90 @@
+<form [formGroup]="taxCalculatorForm" (ngSubmit)="calculateTax()">
+  <h2 class="text-center text-primary">Calculate Tax</h2>
+  <hr />
+  <div class="inputGroup inputGroup1">
+    <label for="annualIncome">Annual Income *</label>
+    <input id="annualIncome" name="annualIncome" type="text" class="form-control" placeholder="Annual Income" [ngClass]="{
+                'is-invalid':
+                taxCalculatorForm.get('annualIncome').errors &&
+                taxCalculatorForm.get('annualIncome').touched
+              }"
+      formControlName="annualIncome">
+    <span class="md-line"></span>
+    <div class="invalid-feedback" *ngIf="
+    taxCalculatorForm.get('annualIncome').hasError('required') &&
+    taxCalculatorForm.get('annualIncome').touched
+  ">
+      Annual Income is required
+    </div>
+    <div class="invalid-feedback" *ngIf="
+              !!taxCalculatorForm.get('annualIncome').errors?.pattern &&
+              taxCalculatorForm.get('annualIncome').touched
+            ">
+      Only numbers allowed
+    </div>
+  </div>
+  <div class="inputGroup inputGroup1">
+    <label for="postalCode">Postal Code *</label>
+    <input id="postalCode" name="postalCode" type="text" class="form-control" placeholder="Postal Code" [ngClass]="{
+                'is-invalid':
+                taxCalculatorForm.get('postalCode').errors &&
+                taxCalculatorForm.get('postalCode').touched
+              }"
+      formControlName="postalCode">
+    <span class="md-line"></span>
+    <div class="invalid-feedback" *ngIf="
+              taxCalculatorForm.get('postalCode').hasError('required') &&
+              taxCalculatorForm.get('postalCode').touched
+            ">
+      Postal Code is required
+    </div>
+    <div class="invalid-feedback" *ngIf="
+              !!taxCalculatorForm.get('postalCode').errors?.pattern &&
+              taxCalculatorForm.get('postalCode').touched
+            ">
+      Only letters and numbers allowed
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="inputGroup inputGroup3">
+        <button id="calculate" type="submit">Calculate</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="taxCalculationOutput">
+    <div class="col-12">
+      <label class="create-account-callout mt-3">
+        Calculated TAX result:
+        <a [routerLink]="">
+          {{taxCalculationOutput?.valueCalculated | currency: 'R ': 'symbol'}}
+        </a>
+      </label>
+      <label class="create-account-callout mt-3">
+        Date Calculated:
+        <a [routerLink]="">
+          {{taxCalculationOutput?.dateCalculated | date: 'dd MMMM yyyy'}}
+        </a>
+      </label>
+    </div>
+  </div>
+
+  <div class="row mt-3" *ngIf="taxCalculationOutput === 0">
+    <div class="col-12">
+      <label class="text-danger">
+        Error:
+        <a [routerLink]="">
+          Postal Code Match Not Found
+        </a>
+      </label>
+      <label class="text-warning">
+      <a [routerLink]="">
+        {{taxCalculationOutput | currency: 'R ':'symbol'}}
+      </a>
+    </label>
+    
+    </div>
+  </div>
+
+</form>

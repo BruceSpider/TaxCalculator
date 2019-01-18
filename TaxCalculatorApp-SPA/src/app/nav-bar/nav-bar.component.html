@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" [routerLink]="['/home']">Tax Calculator</a>
+
+    <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/home']">Home</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/tax-calculator']">Tax Calculator</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['/admin']">Admin</a>
+      </li>
+      <li  class="nav-item pointer" routerLinkActive="active">
+        <a class="nav-link" (click)="logout()">Logout</a>
+      </li>
+    </ul>
+ 
+
+    <div *ngIf="loggedIn()" class="dropdown pointer" dropdown>
+      <a class="dropdown-toggle text-light" dropdownToggle>
+          Welcome {{ authService.decodedToken?.unique_name | titlecase }}
+      </a>
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item" (click)="logout()">
+          <i class="fa fa-sign-out"></i> Logout </a>
+      </div>
+    </div>
+
+    <form *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0 text-light" (ngSubmit)="login()">
+          <button class="btn btn-info my-2 my-sm-0 mr-2" type="button" (click)="login()">Login</button>
+          <button class="btn btn-primary clear-white" type="button" (click)="register()">Register</button>
+    </form>
+  </div>
+
+</nav>
